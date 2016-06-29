@@ -1,84 +1,80 @@
-function AVLTree(value){
-  if( value )
-    this.root = new Node(value);
-}
-
-AVLTree.prototype.insert = function(value){
-  if( this.root )
-    this.root.insert(value);
-  else
-    this.root = new Node(value);
-
-  this.root.update();
-  this.balance();
-
-  return this;
-}
-
-AVLTree.prototype.rotateRight = function(value){
-  this.root.get(value).rotateRight(this);
-  this.root.update();
-}
-
-AVLTree.prototype.rotateLeft = function(value){
-  this.root.get(value).rotateLeft(this);
-  this.root.update();
-}
-
-AVLTree.prototype.balance = function(){
-
-  var unbalanceds = 0,
-      nodeToRotate;
-
-  this.root.posOrder(function(node){
-    if( Math.abs(node.balancing) >= 2 ){
-      unbalanceds++;
-      if( unbalanceds == 1 )
-        nodeToRotate = node;
-    }
-  });
-
-  if(unbalanceds == 0) return;
-
-  if( nodeToRotate.balancing < 0 ){
-    if( nodeToRotate.left.balancing < 0 )
-      this.rotateRight(nodeToRotate.value);
+class AVLTree {
+  constructor(value){
+    if( value )
+      this.root = new Node(value);
+  }
+  insert (value){
+    if( this.root )
+      this.root.insert(value);
     else
-      this.doubleRotateLeft(nodeToRotate.value);
-  } else {
-    if( nodeToRotate.right.balancing > 0 )
-      this.rotateLeft(nodeToRotate.value);
-    else
-      this.doubleRotateRight(nodeToRotate.value);
+      this.root = new Node(value);
+
+    this.root.update();
+    this.balance();
+
+    return this;
+  }
+  rotateRight(value){
+    this.root.get(value).rotateRight(this);
+    this.root.update();
   }
 
-  this.balance();
+  rotateLeft(value){
+    this.root.get(value).rotateLeft(this);
+    this.root.update();
+  }
+
+  balance(){
+
+    var unbalanceds = 0,
+        nodeToRotate;
+
+    this.root.posOrder(function(node){
+      if( Math.abs(node.balancing) >= 2 ){
+        unbalanceds++;
+        if( unbalanceds == 1 )
+          nodeToRotate = node;
+      }
+    });
+
+    if(unbalanceds == 0) return;
+
+    if( nodeToRotate.balancing < 0 ){
+      if( nodeToRotate.left.balancing < 0 )
+        this.rotateRight(nodeToRotate.value);
+      else
+        this.doubleRotateLeft(nodeToRotate.value);
+    } else {
+      if( nodeToRotate.right.balancing > 0 )
+        this.rotateLeft(nodeToRotate.value);
+      else
+        this.doubleRotateRight(nodeToRotate.value);
+    }
+
+    this.balance();
+  }
+
+  doubleRotateLeft(value){
+    var node = this.root.get(value);
+    node.left.rotateLeft(this);
+    node.rotateRight(this);
+
+    this.root.update();
+  }
+
+  doubleRotateRight(value){
+    var node = this.root.get(value);
+    node.right.rotateRight(this);
+    node.rotateLeft(this);
+
+    this.root.update();
+  }
+
+  preOrder(callback){
+    this.root.preOrder(callback);
+  }
 }
 
-AVLTree.prototype.doubleRotateLeft = function(value){
-  var node = this.root.get(value);
-  node.left.rotateLeft(this);
-  node.rotateRight(this);
-
-  this.root.update();
-}
-
-AVLTree.prototype.doubleRotateRight = function(value){
-  var node = this.root.get(value);
-  node.right.rotateRight(this);
-  node.rotateLeft(this);
-
-  this.root.update();
-}
-
-AVLTree.prototype.preOrder = function(callback){
-  this.root.preOrder(callback);
-}
-AVLTree.prototype.updateNode = function(){
-  this.root.preOrder(function(node){
-    node.update();
-  });
-}
 
 function Node( value, parent ){
   this.value = value;
