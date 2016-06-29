@@ -295,10 +295,4 @@ Node.prototype = {
   },
 };
 
-var test = new AVLTree();
-
-test.insert(5).insert(3).insert(2).insert(1).insert(9).insert(4).insert(8).insert(7);
-
-test.preOrder(function( node ){
-  console.log(node.value, node.balancing);
-});
+module.exports = AVLTree;
