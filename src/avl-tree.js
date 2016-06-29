@@ -1,6 +1,6 @@
 function AVLTree(value){
   if( value )
-  this.root = new Node(value);
+    this.root = new Node(value);
 }
 
 AVLTree.prototype.insert = function(value){
@@ -88,10 +88,6 @@ function Node( value, parent ){
   if( parent )
     this.height = parent.height + 1;
 };
-
-Node.posOrderList = [];
-Node.leafs = [];
-Node.unbalanceds = [];
 
 Node.prototype = {
   updateHeight: function(){
