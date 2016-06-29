@@ -1,3 +1,4 @@
+
 class AVLTree {
   constructor(value){
     if( value )
@@ -75,18 +76,16 @@ class AVLTree {
   }
 }
 
+class Node {
+  constructor( value, parent ){
+    this.value = value;
+    this.parent = parent;
+    this.height = 0;
 
-function Node( value, parent ){
-  this.value = value;
-  this.parent = parent;
-  this.height = 0;
-
-  if( parent )
-    this.height = parent.height + 1;
-};
-
-Node.prototype = {
-  updateHeight: function(){
+    if( parent )
+      this.height = parent.height + 1;
+  }
+  updateHeight(){
     var height = 0;
 
     if( this.left )
@@ -97,8 +96,8 @@ Node.prototype = {
     height += 1;
     this.height = height;
     return height;
-  },
-  rotateLeft: function(tree){
+  }
+  rotateLeft(tree){
 
     /*
       4             6
@@ -129,9 +128,9 @@ Node.prototype = {
 
     if( hold )
       hold.parent = this;
-  },
+  }
 
-  rotateRight: function(tree){
+  rotateRight(tree){
 
     /*
           8         6
@@ -157,11 +156,11 @@ Node.prototype = {
 
     child.right = this;
     this.parent = child;
-  },
-  isLeaf: function(){
+  }
+  isLeaf(){
     return !this.left && !this.right;
-  },
-  countNodes: function(){
+  }
+  countNodes(){
     if( this.isLeaf() ) return 1;
 
     var counter = 1;
@@ -170,23 +169,23 @@ Node.prototype = {
     if( this.right )
       counter += this.right.countNodes();
     return counter;
-  },
-  countChilds: function(){
+  }
+  countChilds(){
     return this.countNodes() - 1;
-  },
-  posOrder: function(callback){
+  }
+  posOrder(callback){
     if( this.left )
       this.left.posOrder();
     if( this.right )
       this.right.posOrder();
 
     callback(this);
-  },
-  update: function(){
+  }
+  update(){
     this.updateHeight();
     this.updateBalancing();
-  },
-  updateBalancing: function(){
+  }
+  updateBalancing(){
     var balancing = 0;
 
     if( this.right ){
@@ -200,8 +199,8 @@ Node.prototype = {
     }
 
     this.balancing = balancing;
-  },
-  hasValue: function( value ){
+  }
+  hasValue( value ){
     if( this.value == value ) return true;
 
     if( value < this.value )
@@ -211,8 +210,8 @@ Node.prototype = {
     if( value > this.value )
       if( this.right ) return this.right.hasValue(value);
       else return false;
-  },
-  insert: function(value){
+  }
+  insert(value){
     if( value > this.value )
       if( this.right )
         this.right.insert(value);
@@ -228,34 +227,34 @@ Node.prototype = {
     this.update();
 
     return this;
-  },
-  get: function( value ){
+  }
+  get( value ){
     if( !this.hasValue(value) ) return null;
 
     if( value == this.value ) return this;
 
     if( value < this.value ) return this.left.get(value);
     if( value > this.value ) return this.right.get(value);
-  },
-  biggest: function(){
+  }
+  biggest(){
     if( this.right )
       return this.right.biggest();
     else
       return this;
-  },
-  smallest: function(){
+  }
+  smallest(){
     if( this.left )
       return this.left.smallest();
     else
       return this;
-  },
-  successor: function(){
+  }
+  successor(){
     return this.right ? this.right.smallest(): null;
-  },
-  antecessor: function(){
+  }
+  antecessor(){
     return this.left ? this.left.biggest(): null;
-  },
-  preOrder: function(callback){
+  }
+  preOrder(callback){
 
     callback(this);
 
@@ -264,8 +263,8 @@ Node.prototype = {
 
     if( this.right )
       this.right.preOrder(callback);
-  },
-  posOrder: function(callback){
+  }
+  posOrder(callback){
 
     if( this.left )
       this.left.posOrder(callback);
@@ -275,8 +274,8 @@ Node.prototype = {
 
     callback(this);
 
-  },
-  getUnbalanceds: function(){
+  }
+  getUnbalancedsfunction(){
     var unbalanceds = [];
     this.update();
     this.preOrder(function(node){
@@ -284,7 +283,7 @@ Node.prototype = {
         unbalanceds.push(node);
     });
     return unbalanceds;
-  },
-};
+  }
+}
 
 module.exports = AVLTree;
