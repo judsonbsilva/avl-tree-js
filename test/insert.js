@@ -1,5 +1,6 @@
 var assert = require('chai').assert;
 var AVLTree = require('../dist/avl-tree.min.js');
+var _ = require('underscore');
 
 describe('AVL Tree', function() {
   describe('#insert', function () {
