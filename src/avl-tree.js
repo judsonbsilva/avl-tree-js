@@ -28,10 +28,10 @@ class AVLTree {
   balance(){
 
     var unbalanceds = 0,
-        nodeToRotate;
+        nodeToRotate = null;
 
     this.root.posOrder(function(node){
-      if( Math.abs(node.balancing) >= 2 ){
+      if( Math.abs( node.balancing ) >= 2 ){
         unbalanceds++;
         if( unbalanceds == 1 )
           nodeToRotate = node;
@@ -88,14 +88,16 @@ class Node {
   updateHeight(){
     var height = 0;
 
-    if( this.left )
-      height = this.left.updateHeight();
-    if( this.right && this.right.updateHeight() > height )
-      height = this.right.height;
-
-    height += 1;
-    this.height = height;
-    return height;
+    if( this.left != null ){
+      this.left.updateHeight();
+      height = this.left.height;
+    }
+    if( this.right != null ){
+      this.right.updateHeight();
+      if( this.right.height > height )
+        height = this.right.height;
+    }
+    this.height = height + 1;
   }
   rotateLeft(tree){
 
@@ -109,53 +111,53 @@ class Node {
         hold = child.left;
 
     child.left = this;
+    child.parent = this.parent;
 
-    if (this.parent){
-      var orientation = (this.parent.left == this) ? 'left' : 'right';
-      this.parent[orientation] = child;
+    this.parent = child;
+    this.right = hold;
+
+
+    if( hold )
+      hold.parent = this;
+
+    if (child.parent != null){
+      var orientation = (child.parent.left == this) ? 'left' : 'right';
+      child.parent[orientation] = child;
     } else {
       tree.root = child;
       child.parent = null;
     }
 
-    child.parent = this.parent;
-
-    if( this.parent == null )
-      tree.root = child;
-
-    this.parent = child;
-    this.left = hold;
-
-    if( hold )
-      hold.parent = this;
   }
 
   rotateRight(tree){
 
     /*
           8         6
-        6    =>   5   8
-      5   H          H
+        6    =>   4   8
+      4   H          H
     */
 
-    var child = this.left;
+    var child = this.left,
+        hold = child.right;
 
-    if (this.parent){
-      var orientation = (this.parent.left == this) ? 'left' : 'right';
-      this.parent[orientation] = child;
-      child.parent = this.parent;
+    child.right = this;
+    child.parent = this.parent;
+
+    this.parent = child;
+    this.left = hold;
+
+    if( hold )
+      hold.parent = this;
+
+    if (child.parent != null){
+      var orientation = (child.parent.left == this) ? 'left' : 'right';
+      child.parent[orientation] = child;
     } else {
       tree.root = child;
       child.parent = null;
     }
 
-    this.left = child.right;
-    if (this.left){
-      this.left.parent = this;
-    }
-
-    child.right = this;
-    this.parent = child;
   }
   isLeaf(){
     return !this.left && !this.right;
