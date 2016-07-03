@@ -4,7 +4,8 @@
   "description": "A simple recursive AVL Tree to JavaScript",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --compilers js:babel-register"
+    "build": "gulp build",
+    "test": "npm build && mocha --compilers js:babel-register"
   },
   "author": "judsonbarroso@gmail.com",
   "license": "MIT",
