@@ -116,7 +116,6 @@ class Node {
     this.parent = child;
     this.right = hold;
 
-
     if( hold )
       hold.parent = this;
 
@@ -277,6 +276,17 @@ class Node {
     callback(this);
 
   }
+  inOrder(callback){
+
+    if( this.left )
+      this.left.posOrder(callback);
+
+    callback(this);
+
+    if( this.right )
+      this.right.posOrder(callback);
+  }
+
   getUnbalancedsfunction(){
     var unbalanceds = [];
     this.update();
