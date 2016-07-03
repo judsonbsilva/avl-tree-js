@@ -1,6 +1,6 @@
-var assert = require('chai').assert;
-var AVLTree = require('../dist/avl-tree.min.js');
-var _ = require('underscore');
+import { assert } from 'chai';
+import AVLTree from '../dist/avl-tree.min.js';
+import _ from 'underscore';
 
 describe('AVL Tree', function() {
   describe('#insert', function () {
@@ -73,11 +73,11 @@ describe('AVL Tree', function() {
 
       var tree = new AVLTree(),
           values = [300,400,350,325,315,320],
-          balancedValues = [325,315,300,320,350,400]
+          balancedValues = [325,315,300,320,350,400],
           i = 0;
 
       _.each(values,function(value){
-        tree.insert(value)
+        tree.insert(value);
       });
 
       tree.preOrder(function( node ){
