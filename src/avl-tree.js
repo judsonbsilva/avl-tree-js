@@ -85,6 +85,11 @@ class Node {
     if( parent )
       this.height = parent.height + 1;
   }
+
+  getLevel(){
+    return this.parent ? 1 + this.parent.getLevel(): 0;
+  }
+
   updateHeight(){
     var height = 0;
 
