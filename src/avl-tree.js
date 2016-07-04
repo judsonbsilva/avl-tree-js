@@ -86,8 +86,8 @@ class Node {
       this.height = parent.height + 1;
   }
 
-  getLevel(){
-    return this.parent ? 1 + this.parent.getLevel(): 0;
+  updateLevel(){
+    this.level = this.parent ? 1 + this.parent.level: 0;
   }
 
   updateHeight(){
@@ -188,6 +188,9 @@ class Node {
     callback(this);
   }
   update(){
+    this.preOrder(function(node){
+        node.updateLevel();
+    });
     this.updateHeight();
     this.updateBalancing();
   }

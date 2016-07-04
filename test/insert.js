@@ -86,5 +86,19 @@ describe('AVL Tree', function() {
 
     });
 
+    it('get level', function () {
+
+        var tree = new AVLTree(),
+            values = [1,2,3,4];
+
+        _.each(values, function(value){
+            tree.insert(value);
+        });
+
+        assert.equal(tree.root.level, 0);
+        assert.equal(tree.root.get(1).level, 1);
+        assert.equal(tree.root.get(4).level, 2);
+
+    });
   });
 });
