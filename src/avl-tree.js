@@ -10,7 +10,7 @@ class AVLTree {
         else
             this.root = new Node(value);
 
-        this.root.update();
+        this.update();
         this.balance();
 
         return this;
@@ -18,10 +18,14 @@ class AVLTree {
     remove( value  ){
         if( this.root ){
             this.root.remove(value, this);
-            if( this.root )
-                this.root.update();
+            this.update();
+            this.balance();
         }
 
+    }
+    update(){
+        if(this.root)
+            this.root.update();
     }
     rotateRight(value){
         this.root.get(value).rotateRight(this);
@@ -35,13 +39,14 @@ class AVLTree {
 
     balance(){
 
+        if( !this.root ) return;
+
         var unbalanceds = 0,
             nodeToRotate = null;
 
         this.root.posOrder(function(node){
             if( Math.abs( node.balancing ) >= 2 ){
-                unbalanceds++;
-                if( unbalanceds == 1 )
+                if( ++unbalanceds == 1 )
                     nodeToRotate = node;
             }
         });
@@ -49,15 +54,16 @@ class AVLTree {
         if(unbalanceds == 0) return;
 
         if( nodeToRotate.balancing < 0 ){
-            if( nodeToRotate.left.balancing < 0 )
-                this.rotateRight(nodeToRotate.value);
-            else
+            if( nodeToRotate.left.balancing > 0 )
                 this.doubleRotateLeft(nodeToRotate.value);
+            else {
+                this.rotateRight(nodeToRotate.value);
+            }
         } else {
-            if( nodeToRotate.right.balancing > 0 )
-                this.rotateLeft(nodeToRotate.value);
-            else
+            if( nodeToRotate.right.balancing < 0 )
                 this.doubleRotateRight(nodeToRotate.value);
+            else
+                this.rotateLeft(nodeToRotate.value);
         }
 
         this.balance();

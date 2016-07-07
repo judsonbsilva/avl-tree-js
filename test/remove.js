@@ -75,4 +75,21 @@ describe("#remove", function(){
         tree.remove(78);
         assert.equal(tree.root.countNodes(), 8);
     });
+
+    it('aleatory sequence 2', function(){
+
+        var tree = new AVLTree(),
+            values = [40, 30,70, 20,31,60,90,15,25,55,65,80,100],
+            ordeneds = [40,20,15,30,25,70,60,55,65,90,80,100],
+            i = 0;
+
+        _.each(values, function(value){
+            tree.insert(value);
+        });
+        tree.remove(31);
+
+        tree.preOrder(function(node){
+            assert.equal( node.value, ordeneds[i++]);
+        });
+    });
 });
