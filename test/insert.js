@@ -155,7 +155,9 @@ describe('AVL Tree', function() {
         });
 
         tree.remove(8);
-        assert.equal(tree.root.countNodes(), 3);
+        assert.equal(tree.root.value, 5);
+        assert.equal(tree.root.left.value, 3);
+        assert.equal(tree.root.right.value, 12);
     });
   });
 });

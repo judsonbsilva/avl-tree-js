@@ -190,38 +190,45 @@ class Node {
             var isRoot = !this.parent ? true: false,
                 orientation;
 
-           if(!isRoot) orientation  = (this.parent.left == this) ? 'left' : 'right';
+           if(!isRoot)
+               orientation  = (this.parent.left == this) ? 'left' : 'right';
 
             /*
-            *
             *      5       5
             *    4   6X  4
-            *
             */
             if( this.isLeaf() ){
                 if( isRoot ) tree.root = null;
                 else this.parent[orientation] = null;
             } else {
                 var substitute;
-                /*        18          18
-                *      8x           6
-                *   5     12  =>  5   12
-                *     6
+                /*
+                *      8x           5
+                *   3     12  =>  3   12
+                *     5
                 */
                 if( this.left ){
                     substitute = this.antecessor();
-                    substitute.parent.right = null;
+
+                    if( this.left.countNodes() == 1 )
+                        this.left = null;
+                    else
+                        substitute.parent.right = null;
                 } else if( this.right  ){
                     substitute = this.sucessor();
-                    substitute.parent.left = null;
+
+                    if( this.right.countNodes() == 1 )
+                        this.right = null;
+                    else
+                        substitute.parent.left = null;
+
                 }
 
                 substitute.parent = this.parent;
-
                 substitute.left = this.left;
-                if( substitute.left ) substitute.left.parent = substitute;
-
                 substitute.right = this.right;
+
+                if( substitute.left ) substitute.left.parent = substitute;
                 if( substitute.right ) substitute.right.parent = substitute;
 
                 if( isRoot ){
