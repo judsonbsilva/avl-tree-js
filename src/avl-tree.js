@@ -217,7 +217,7 @@ class Node {
                         substitute.left = null;
                     } else {
                         substitute = this.antecessor();
-                        substitute.parent.right = null;
+                        substitute.parent.right = substitute.left;
                         substitute.left = this.left;
                         substitute.left.parent = substitute;
                     }
@@ -230,7 +230,7 @@ class Node {
                         substitute.right = null;
                     } else {
                         substitute = this.successor();
-                        substitute.parent.left = null;
+                        substitute.parent.left = substitute.right;
                         substitute.right = this.right;
                         substitute.right.parent = substitute;
                     }
