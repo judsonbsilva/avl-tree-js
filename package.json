@@ -1,6 +1,6 @@
 {
   "name": "avl-tree-js",
-  "version": "0.0.6",
+  "version": "0.0.65",
   "description": "A simple recursive AVL Tree to JavaScript",
   "main": "./dist/avl-tree.min.js",
   "scripts": {
