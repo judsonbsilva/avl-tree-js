@@ -62,4 +62,17 @@ describe("#remove", function(){
         assert.equal(tree.root.left.value, 3);
         assert.equal(tree.root.right.value, 12);
     });
+
+    it('aleatory sequence', function(){
+
+        var tree = new AVLTree(),
+            values = [23,10,43,2,32,11,78,5,105];
+
+        _.each(values, function(value){
+            tree.insert(value);
+        });
+
+        tree.remove(78);
+        assert.equal(tree.root.countNodes(), 8);
+    });
 });

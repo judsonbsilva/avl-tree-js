@@ -114,61 +114,61 @@ class Node {
     }
     rotateLeft(tree){
 
-        /*
-    4             6
-    6    =>   4   7
-    H   7        H
-        */
+            /*
+        4             6
+        6    =>   4   7
+        H   7        H
+            */
 
-    var child = this.right,
-        hold = child.left;
+        var child = this.right,
+            hold = child.left;
 
-    child.left = this;
-    child.parent = this.parent;
+        child.left = this;
+        child.parent = this.parent;
 
-    this.parent = child;
-    this.right = hold;
+        this.parent = child;
+        this.right = hold;
 
-    if( hold )
-        hold.parent = this;
+        if( hold )
+            hold.parent = this;
 
-    if (child.parent != null){
-        var orientation = (child.parent.left == this) ? 'left' : 'right';
-        child.parent[orientation] = child;
-    } else {
-        tree.root = child;
-        child.parent = null;
-    }
+        if (child.parent != null){
+            var orientation = (child.parent.left == this) ? 'left' : 'right';
+            child.parent[orientation] = child;
+        } else {
+            tree.root = child;
+            child.parent = null;
+        }
 
     }
 
     rotateRight(tree){
 
-        /*
-    8         6
-    6    =>   4   8
-    4   H          H
-        */
+            /*
+        8         6
+        6    =>   4   8
+        4   H          H
+            */
 
-    var child = this.left,
-        hold = child.right;
+        var child = this.left,
+            hold = child.right;
 
-    child.right = this;
-    child.parent = this.parent;
+        child.right = this;
+        child.parent = this.parent;
 
-    this.parent = child;
-    this.left = hold;
+        this.parent = child;
+        this.left = hold;
 
-    if( hold )
-        hold.parent = this;
+        if( hold )
+            hold.parent = this;
 
-    if (child.parent != null){
-        var orientation = (child.parent.left == this) ? 'left' : 'right';
-        child.parent[orientation] = child;
-    } else {
-        tree.root = child;
-        child.parent = null;
-    }
+        if (child.parent != null){
+            var orientation = (child.parent.left == this) ? 'left' : 'right';
+            child.parent[orientation] = child;
+        } else {
+            tree.root = child;
+            child.parent = null;
+        }
 
     }
     isLeaf(){
@@ -188,53 +188,73 @@ class Node {
     remove(value, tree){
         if( this.value == value ){
             var isRoot = !this.parent ? true: false,
-                orientation;
+                side;
 
-           if(!isRoot)
-               orientation  = (this.parent.left == this) ? 'left' : 'right';
+            if(!isRoot)
+                side = (this.parent.left == this) ? 'left' : 'right';
 
-            /*
-            *      5       5
-            *    4   6X  4
-            */
             if( this.isLeaf() ){
-                if( isRoot ) tree.root = null;
-                else this.parent[orientation] = null;
-            } else {
-                var substitute;
-                /*
-                *      8x           5
-                *   3     12  =>  3   12
-                *     5
-                */
-                if( this.left ){
-                    substitute = this.antecessor();
+                if( isRoot )
+                    tree.root = null;
+                else
+                    this.parent[side] = null;
+            }
 
-                    if( this.left.countNodes() == 1 )
-                        this.left = null;
-                    else
+            if( this.left && this.right ){
+                let num1 = this.left.countChilds(),
+                    num2 = this.right.countChilds(),
+                    substitute;
+
+                if( num1 >= num2 ){
+                    if( num1 == 0 ){
+                        substitute = this.left;
+                        substitute.left = null;
+                    } else {
+                        substitute = this.antecessor();
                         substitute.parent.right = null;
-                } else if( this.right  ){
-                    substitute = this.sucessor();
-
-                    if( this.right.countNodes() == 1 )
-                        this.right = null;
-                    else
+                        substitute.left = this.left;
+                        substitute.left.parent = substitute;
+                    }
+                    substitute.parent = this.parent;
+                    substitute.right = this.right;
+                    substitute.right.parent = substitute;
+                } else {
+                    if( num2 == 0 ){
+                        substitute = this.right;
+                        substitute.right = null;
+                    } else {
+                        substitute = this.sucessor();
                         substitute.parent.left = null;
-
+                        substitute.right = this.left;
+                        substitute.right.parent = substitute;
+                    }
+                    substitute.parent = this.parent;
+                    substitute.left = this.left;
+                    substitute.left.parent = substitute;
                 }
-
-                substitute.parent = this.parent;
-                substitute.left = this.left;
-                substitute.right = this.right;
-
-                if( substitute.left ) substitute.left.parent = substitute;
-                if( substitute.right ) substitute.right.parent = substitute;
 
                 if( isRoot )
                     tree.root = substitute;
+                 else
+                    substitute.parent[side] = substitute;
+            } else if( this.left ){
+                let substitute = this.left;
+                substitute.left = null;
+                substitute.right = this.right;
+                substitute.parent = this.parent;
+                if( isRoot )
+                    tree.root = substitute;
                 else
-                  substitute.parent[orientation] = substitute;
+                    substitute.parent[side] = substitute;
+            } else if( this.right ){
+                let substitute = this.right;
+                substitute.right = null;
+                substitute.left = this.left;
+                substitute.parent = this.parent;
+                if( isRoot )
+                    tree.root = substitute;
+                else
+                    substitute.parent[side] = substitute;
             }
         }
 
