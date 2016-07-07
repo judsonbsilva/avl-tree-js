@@ -231,9 +231,9 @@ class Node {
                 if( substitute.left ) substitute.left.parent = substitute;
                 if( substitute.right ) substitute.right.parent = substitute;
 
-                if( isRoot ){
+                if( isRoot )
                     tree.root = substitute;
-                } else
+                else
                   substitute.parent[orientation] = substitute;
             }
         }
