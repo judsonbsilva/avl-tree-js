@@ -229,7 +229,7 @@ class Node {
                         substitute = this.right;
                         substitute.right = null;
                     } else {
-                        substitute = this.sucessor();
+                        substitute = this.successor();
                         substitute.parent.left = null;
                         substitute.right = this.left;
                         substitute.right.parent = substitute;
