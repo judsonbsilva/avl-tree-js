@@ -211,45 +211,25 @@ class Node {
                     substitute;
 
                 if( num1 >= num2 ){
-                    if( num1 == 0 ){
-                        substitute = this.left;
-                        substitute.left = null;
-                    } else {
-                        substitute = this.antecessor();
-                        substitute.parent.right = substitute.left;
-                        if( substitute.left  )
+                    substitute = this.antecessor();
+					if( substitute.value != this.left.value ){
+						substitute.parent.right = substitute.left;
+						if( substitute.left  )
 							substitute.left.parent = substitute.parent;
-
 						substitute.left = this.left;
-
 						if( substitute.left  )
 							substitute.left.parent = substitute;
-                    }
+					}
                     substitute.parent = this.parent;
                     substitute.right = this.right;
                     substitute.right.parent = substitute;
                 } else {
-                    if( num2 == 0 ){
-                        substitute = this.right;
-                        substitute.right = null;
-                    } else {
-						/*
-						*      THIS
-						*		   \
-						*			A
-						*		   /  \
-						*   SUCCESSOR  B
-						*          \    \
-						*           C    D
-						*/
-                        substitute = this.successor();
-                        substitute.parent.left = substitute.right;
-
+				   	substitute = this.successor();
+					if( substitute.value != this.right.value ){
+					    substitute.parent.left = substitute.right;
 						if( substitute.right  )
 							substitute.right.parent = substitute.parent;
-
 						substitute.right = this.right;
-
 						if( substitute.right  )
 							substitute.right.parent = substitute;
                     }

@@ -112,4 +112,24 @@ describe("#remove", function(){
         });
 
 	});
+
+	it('if successor is equal to child left', function(){
+
+        var tree = new AVLTree(),
+            values =  [3,2,1,4,5],
+			balanceds = [2,1,4,5],
+			i = 0;
+
+        _.each(values, function(value){
+            tree.insert(value);
+        });
+
+        tree.remove(3);
+
+        tree.preOrder(function(node){
+            assert.equal( node.value, balanceds[i++]);
+        });
+
+	});
+
 });
