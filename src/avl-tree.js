@@ -56,9 +56,8 @@ class AVLTree {
         if( nodeToRotate.balancing < 0 ){
             if( nodeToRotate.left.balancing > 0 )
                 this.doubleRotateLeft(nodeToRotate.value);
-            else {
+            else
                 this.rotateRight(nodeToRotate.value);
-            }
         } else {
             if( nodeToRotate.right.balancing < 0 )
                 this.doubleRotateRight(nodeToRotate.value);
@@ -218,7 +217,9 @@ class Node {
                     } else {
                         substitute = this.antecessor();
                         substitute.parent.right = substitute.left;
-                        substitute.left = this.left;
+                        if( substitute.left )
+							substitute.left.parent = substitute.parent;
+					   	substitute.left = this.left;
                         substitute.left.parent = substitute;
                     }
                     substitute.parent = this.parent;
@@ -232,6 +233,8 @@ class Node {
                         substitute = this.successor();
                         substitute.parent.left = substitute.right;
                         substitute.right = this.right;
+						if( substitute.right )
+							substitute.right.parent = substitute.parent;
                         substitute.right.parent = substitute;
                     }
                     substitute.parent = this.parent;
