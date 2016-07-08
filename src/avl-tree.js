@@ -217,10 +217,13 @@ class Node {
                     } else {
                         substitute = this.antecessor();
                         substitute.parent.right = substitute.left;
-                        if( substitute.left )
+                        if( substitute.left  )
 							substitute.left.parent = substitute.parent;
-					   	substitute.left = this.left;
-                        substitute.left.parent = substitute;
+
+						substitute.left = this.left;
+
+						if( substitute.left  )
+							substitute.left.parent = substitute;
                     }
                     substitute.parent = this.parent;
                     substitute.right = this.right;
@@ -230,12 +233,25 @@ class Node {
                         substitute = this.right;
                         substitute.right = null;
                     } else {
+						/*
+						*      THIS
+						*		   \
+						*			A
+						*		   /  \
+						*   SUCCESSOR  B
+						*          \    \
+						*           C    D
+						*/
                         substitute = this.successor();
                         substitute.parent.left = substitute.right;
-                        substitute.right = this.right;
-						if( substitute.right )
+
+						if( substitute.right  )
 							substitute.right.parent = substitute.parent;
-                        substitute.right.parent = substitute;
+
+						substitute.right = this.right;
+
+						if( substitute.right  )
+							substitute.right.parent = substitute;
                     }
                     substitute.parent = this.parent;
                     substitute.left = this.left;

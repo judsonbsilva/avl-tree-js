@@ -92,4 +92,24 @@ describe("#remove", function(){
             assert.equal( node.value, ordeneds[i++]);
         });
     });
+
+	it('successor with right child', function(){
+
+        var tree = new AVLTree(),
+            values = [30,20,40,10,25,35,50,5,37,55],
+			balanceds = [35,20,10,5,25,40,37,50,55],
+			i = 0;
+
+        _.each(values, function(value){
+            tree.insert(value);
+        });
+
+		assert.equal( tree.root.value, 30);
+        tree.remove(30);
+
+        tree.preOrder(function(node){
+            assert.equal( node.value, balanceds[i++]);
+        });
+
+	});
 });
