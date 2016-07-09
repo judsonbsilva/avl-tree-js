@@ -382,12 +382,12 @@ class Node {
     inOrder(callback){
 
         if( this.left )
-            this.left.posOrder(callback);
+            this.left.inOrder(callback);
 
         callback(this);
 
         if( this.right )
-            this.right.posOrder(callback);
+            this.right.inOrder(callback);
     }
 
     getUnbalancedsfunction(){
