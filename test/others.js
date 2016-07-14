@@ -36,4 +36,9 @@ describe('#others', function () {
 
     });
 
+    it('test empty tree', function(){
+       var tree = new AVLTree();
+
+      assert.equal(tree.isEmpty(), true);
+    });
 });

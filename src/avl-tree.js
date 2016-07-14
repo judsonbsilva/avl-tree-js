@@ -5,7 +5,7 @@ class AVLTree {
             this.root = new Node(value);
     }
     insert (value){
-        if( this.root )
+        if( !this.isEmpty() )
             this.root.insert(value);
         else
             this.root = new Node(value);
@@ -16,7 +16,7 @@ class AVLTree {
         return this;
     }
     remove( value  ){
-        if( this.root ){
+        if( !this.isEmpty() ){
             this.root.remove(value, this);
             this.update();
             this.balance();
@@ -24,7 +24,7 @@ class AVLTree {
 
     }
     update(){
-        if(this.root)
+        if( !this.isEmpty() )
             this.root.update();
     }
     rotateRight(value){
@@ -86,6 +86,17 @@ class AVLTree {
 
     preOrder(callback){
         this.root.preOrder(callback);
+    }
+
+    isEmpty(){
+        return (
+            !this.root ||
+            this.root.constructor != Node ||
+            this.root.value == null ||
+            this.root.value == undefined ||
+            this.root.value.constructor != Number ||
+            this.root.value === NaN
+        ) ? true: false;
     }
 }
 
